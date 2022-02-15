@@ -34,25 +34,26 @@ void print_data(struct node* head)
 		ptr = ptr->link;
 	}
 }
+struct node* add_at_end(struct node* ptr, int data)
+{
+	struct node* temp = malloc(sizeof(struct node));
+	temp->data = data;
+	temp->link = NULL;
+	
+	ptr->link = temp;
+	return temp;
+}
 int main()
 {
-	struct node* head =(struct node*) malloc(sizeof (struct node)); //creating a new node
+	struct node* head =(struct node*) malloc(sizeof (struct node)); //creating 1-st node
 	//type casting is not necessary but it's a good practice.
 	head->data = 45;
 	head->link = NULL;
-
-	struct node* current = malloc(sizeof(struct node));	
-	current->data = 98;
-	current->link = NULL;
-	head->link = current; //the first node is connected to the second node now
 	
-	current = malloc(sizeof(struct node)); //third-node
-	current->data = 102;
-	current->link = NULL;
-	head->link->link = current;
-	//head->link means accessing first node
-	//head->link->link ==>> 1st_node->link means accessing the second node
-	//head->link->link = current means 2nd_node points to the 3rd_node
+	struct node *ptr = head;
+	ptr = add_at_end(ptr, 98);
+	ptr = add_at_end(ptr, 102);
+	ptr = add_at_end(ptr, 214);
 	
 	count_of_nodes(head);
 	print_data(head);
