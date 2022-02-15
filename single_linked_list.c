@@ -10,7 +10,7 @@ int count;
 void count_of_nodes(struct node* head)
 {
 	if (head == NULL)
-		printf("linked list is empty!");
+		printf("linked list is empty!\n");
 
 	struct node* ptr = NULL;
 	ptr = head;
@@ -20,7 +20,19 @@ void count_of_nodes(struct node* head)
 		ptr = ptr->link;
 		count++;
 	}
-	printf("%d ", count);
+	printf("%d \n", count);
+}
+void print_data(struct node* head)
+{
+	if (head == NULL)
+		printf("linked List is empty!\n");
+	struct node* ptr = NULL;
+	ptr = head;
+	while (ptr != NULL)
+	{
+		printf("%d ", ptr->data);
+		ptr = ptr->link;
+	}
 }
 int main()
 {
@@ -35,7 +47,7 @@ int main()
 	head->link = current; //the first node is connected to the second node now
 	
 	current = malloc(sizeof(struct node)); //third-node
-	current->data = 3;
+	current->data = 102;
 	current->link = NULL;
 	head->link->link = current;
 	//head->link means accessing first node
@@ -43,5 +55,6 @@ int main()
 	//head->link->link = current means 2nd_node points to the 3rd_node
 	
 	count_of_nodes(head);
+	print_data(head);
 	return 0;
 }
