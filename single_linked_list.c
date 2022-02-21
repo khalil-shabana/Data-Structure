@@ -53,6 +53,24 @@ struct node* add_at_beg(struct node* head, int data)
 	head = ptr;
 	return head;
 }
+void add_at_pos(struct node* head,int data, int pos)
+{
+	struct node* ptr = head;
+	struct node* ptr2 = malloc(sizeof (struct node)); //new node
+	ptr2->data = data;
+	ptr2->link = NULL;
+
+	pos--; //NOTE : we need to stand at (pos-1)
+
+	while (pos != 1)
+	{
+		ptr = ptr->link; //updating
+		pos--;
+	}
+	ptr2->link = ptr->link;
+	ptr->link = ptr2;
+
+}
 int main()
 {
 	struct node* head =(struct node*) malloc(sizeof (struct node)); //creating 1-st node
@@ -64,6 +82,8 @@ int main()
 	head= add_at_beg(head, 102);
 	head= add_at_beg(head, 98);
 	
+	add_at_pos(head, 14, 4);
+
 	count_of_nodes(head);
 	print_data(head);
 	return 0;
