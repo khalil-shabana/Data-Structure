@@ -43,6 +43,16 @@ struct node* add_at_end(struct node* ptr, int data)
 	ptr->link = temp;
 	return temp;
 }
+struct node* add_at_beg(struct node* head, int data)
+{
+	struct node* ptr = malloc(sizeof(struct node));
+	ptr->data = data;
+	ptr->link = NULL;
+
+	ptr->link = head;
+	head = ptr;
+	return head;
+}
 int main()
 {
 	struct node* head =(struct node*) malloc(sizeof (struct node)); //creating 1-st node
@@ -50,10 +60,9 @@ int main()
 	head->data = 45;
 	head->link = NULL;
 	
-	struct node *ptr = head;
-	ptr = add_at_end(ptr, 98);
-	ptr = add_at_end(ptr, 102);
-	ptr = add_at_end(ptr, 214);
+	head= add_at_beg(head, 214);
+	head= add_at_beg(head, 102);
+	head= add_at_beg(head, 98);
 	
 	count_of_nodes(head);
 	print_data(head);
