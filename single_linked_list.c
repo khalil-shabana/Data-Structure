@@ -71,6 +71,21 @@ void add_at_pos(struct node* head,int data, int pos)
 	ptr->link = ptr2;
 
 }
+struct node* del_first(struct node* head)
+{
+	if (head == NULL)
+	{
+		printf("list is already empty!");
+	}
+	else
+	{
+		struct node* temp = head;
+		head = head->link;
+		free(temp);
+		temp = NULL;
+	}
+	return head;
+}
 int main()
 {
 	struct node* head =(struct node*) malloc(sizeof (struct node)); //creating 1-st node
@@ -84,7 +99,13 @@ int main()
 	
 	add_at_pos(head, 14, 4);
 
-	count_of_nodes(head);
 	print_data(head);
+
+	head = del_first(head);
+
+	printf("\n\nAfter deleting the first node\n\n");
+	
+	print_data(head);
+	
 	return 0;
 }
