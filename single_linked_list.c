@@ -33,6 +33,7 @@ void print_data(struct node* head)
 		printf("%d ", ptr->data);
 		ptr = ptr->link;
 	}
+	printf("\n");
 }
 struct node* add_at_end(struct node* ptr, int data)
 {
@@ -140,6 +141,20 @@ void del_pos(struct node** head, int position)
 		current = NULL;
 	}
 }
+struct node* reverse(struct node* head)
+{
+	struct node* prev = NULL;
+	struct node* next = NULL;
+	while (head != NULL)
+	{
+		next = head->link;
+		head->link = prev;
+		prev = head;
+		head = next;
+	}	
+	head = prev;
+	return head;
+}
 int main()
 {
 	struct node* head =(struct node*) malloc(sizeof (struct node)); //creating 1-st node
@@ -150,22 +165,10 @@ int main()
 	head= add_at_beg(head, 214);
 	head= add_at_beg(head, 102);
 	head= add_at_beg(head, 98);
+
 	print_data(head);
 
-	add_at_pos(head, 14, 4);
-	printf("\n\nAfter adding a node at 4th position\n\n");
-	print_data(head);
-
-	head = del_first(head);
-	printf("\n\nAfter deleting the first node\n\n");
-	print_data(head);
-
-	del_last(head);
-	printf("\n\nAfter deleting the last node\n\n");
-	print_data(head);
-
-	del_pos(&head, 2);
-	printf("\n\nAfter deleting the node in position 2\n\n");
+	head=reverse(head);
 	print_data(head);
 
 	return 0;
