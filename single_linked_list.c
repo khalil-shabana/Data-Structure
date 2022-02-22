@@ -35,14 +35,18 @@ void print_data(struct node* head)
 	}
 	printf("\n");
 }
-struct node* add_at_end(struct node* ptr, int data)
+void add_at_end(struct node* head, int data)
 {
-	struct node* temp = malloc(sizeof(struct node));
+	struct node*ptr, *temp = malloc(sizeof(struct node));  //we created a new node and made (temp) pointer to points to it
 	temp->data = data;
 	temp->link = NULL;
 	
+	ptr = head;
+	while (ptr->link != NULL)
+	{
+		ptr = ptr->link;
+	}
 	ptr->link = temp;
-	return temp;
 }
 struct node* add_at_beg(struct node* head, int data)
 {
@@ -165,6 +169,7 @@ int main()
 	head= add_at_beg(head, 214);
 	head= add_at_beg(head, 102);
 	head= add_at_beg(head, 98);
+	add_at_end(head, 505);
 
 	print_data(head);
 
