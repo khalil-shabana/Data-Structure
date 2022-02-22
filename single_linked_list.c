@@ -112,6 +112,34 @@ void del_last(struct node* head)
 		temp = NULL;
 	}
 }
+void del_pos(struct node** head, int position)
+{
+	struct node* current = *head;
+	struct node* previous = *head;
+
+	if (*head == NULL)
+	{
+		printf("list is already empty!");
+	}
+	else if (position == 1)
+	{
+		*head = current->link;
+		free(current);
+		current = NULL;
+	}
+	else
+	{
+		while (position != 1)
+		{
+			previous = current;
+			current = current->link;
+			position--;
+		}
+		previous->link = current->link;
+		free(current);
+		current = NULL;
+	}
+}
 int main()
 {
 	struct node* head =(struct node*) malloc(sizeof (struct node)); //creating 1-st node
@@ -135,6 +163,10 @@ int main()
 	del_last(head);
 	printf("\n\nAfter deleting the last node\n\n");
 	print_data(head);
-	
+
+	del_pos(&head, 2);
+	printf("\n\nAfter deleting the node in position 2\n\n");
+	print_data(head);
+
 	return 0;
 }
