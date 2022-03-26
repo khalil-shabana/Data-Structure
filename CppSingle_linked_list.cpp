@@ -16,7 +16,7 @@ node* del_first(node* head);
 void del_last(struct node* head);
 void del_pos(node* *head, int position);
 node* reverse(node* head);
-//---------------------------------------------
+//---------------main starts here------------------------------
 int main()
 {
 	node* head = new node;
@@ -56,8 +56,8 @@ int main()
 	print_data(head);
 	return 0;
 }
+//---------------main ends here------------------------------
 
-//---------------------------------------------
 void count_of_nodes(node* head)
 {
 	int length=0;
