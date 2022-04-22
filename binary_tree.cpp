@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-
+#include <queue>
 
 class node
 {
@@ -24,6 +24,7 @@ public:
 	void preOrder(node* r);
 	void inOrder(node* r);
 	void postOrder(node* r);
+	void BFT(node* r);
 	node* Search(node* r, int key);
 	bool Search(int key);
 	node* findMin(node* r);
@@ -36,50 +37,54 @@ public:
 
 int main()
 {
-	//45 15 79 90 10 55 12 20 50
+	// 10	7	2	9	15	13	30
 	BST T;
-	T.insert_value(45);
-	T.insert_value(15);
-	T.insert_value(79);
-	T.insert_value(90);
 	T.insert_value(10);
-	T.insert_value(55);
-	T.insert_value(12);
-	T.insert_value(20);
-	T.insert_value(50);
-
+	T.insert_value(7);
+	T.insert_value(2);
+	T.insert_value(9);
+	T.insert_value(15);
+	T.insert_value(13);
+	T.insert_value(30);
+	//-------------------------------------------------------------
 	cout << "Display the tree content \n";
+	cout << "\n--------- PreOrder Traversal ---------\n";
 	T.preOrder(T.root);
 	cout << "\n------------------\n";
+	cout << "\n--------- InOrder Traversal ---------\n";
 	T.inOrder(T.root);
 	cout << "\n------------------\n";
+	cout << "\n--------- PostOrder Traversal ---------\n";
 	T.postOrder(T.root);
 	cout << "\n------------------\n";
-	
+	cout << "\n--------- Breadth First Traversal ---------\n";
+	T.BFT(T.root);
+	cout << "\n------------------\n";
+	//-------------------------------------------------------------
 	cout << "\n#Searching...\n";
 	int key;
 	cout << "Enter item to search for :\n";
 	cin >> key;
 	(T.Search(key)) ? cout << "item found\n" << endl : cout << "sorry, item not found\n" << endl;
-
+	//-------------------------------------------------------------
 	cout << "#Finding the min. and MAX. values in the BST\n";
 	T.findMin();
 	T.findMax();
-
+	//-------------------------------------------------------------
 	cout << "\n\n#Deleting a node in BST\n";
 	cout << "Display the tree content before deleting \n";
 	T.preOrder(T.root);
 
-	T.root = T.Delete(T.root, 12);
-	cout << "\n\npreorder after deleting 12\n";
+	cout << "\n\npreorder after deleting 10\n";
+	T.root = T.Delete(T.root, 10);
 	T.preOrder(T.root);
 
 	cout << "\n\npreorder after deleting 20\n";
 	T.root = T.Delete(T.root, 20);
 	T.preOrder(T.root);
 
-	cout << "\n\npreorder after deleting 12\n";
-	T.root = T.Delete(T.root, 12);
+	cout << "\n\npreorder after deleting 30\n";
+	T.root = T.Delete(T.root, 30);
 	T.preOrder(T.root);
 
 	return 0;
@@ -114,7 +119,7 @@ void BST::preOrder(node* r) //root -> left -> right
 {
 	if (r != NULL)
 	{
-		cout << r->data << " ";
+		cout << r->data << "\t";
 		preOrder(r->left);
 		preOrder(r->right);
 	}
@@ -125,7 +130,7 @@ void BST::inOrder(node* r) //left -> root -> right
 	if (r != NULL)
 	{
 		inOrder(r->left);
-		cout << r->data << " ";
+		cout << r->data << "\t";
 		inOrder(r->right);
 	}
 }
@@ -136,8 +141,32 @@ void BST::postOrder(node* r) //left -> root -> right
 	{
 		postOrder(r->left);
 		postOrder(r->right);
-		cout << r->data << " ";
+		cout << r->data << "\t";
 	}
+}
+
+void BST::BFT(node* r)
+{
+	if (r == NULL)
+		return;
+	else
+	{
+		queue <node*> q;
+		
+		q.push(r);
+		while (!q.empty())
+		{
+			r = q.front();
+			if (r->left != NULL)
+				q.push(r->left);
+
+			if (r->right != NULL)
+				q.push(r->right);
+			cout << r->data << "\t";
+			q.pop();
+		}
+	}
+	cout << endl;
 }
 
 node* BST::Search(node* r, int key)
