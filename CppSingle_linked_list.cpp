@@ -1,205 +1,305 @@
 #include <iostream>
 using namespace std;
 
-struct node
-{
+struct node {
 	int data;
 	node* next;
 };
-
-void count_of_nodes(node* head);
-void print_data(node* head);
-void insert_at_end(node* head, int data);
-node* insert_at_beg(node* head, int data);
-void add_at_pos(node* head, int data, int pos);
-node* del_first(node* head);
-void del_last(struct node* head);
-void del_pos(node* *head, int position);
-node* reverse(node* head);
+class Linked_List {
+private :
+	node* head;
+public:
+	Linked_List();
+	void show();
+	void insert_newnode(int val); //at end
+	void insert_firstnode(int val);//at first
+	int number_of_elements();
+	void insert_atposition(int pos,int val);
+	node* search_by_value(int value);
+	void delete_first();
+	void delete_last();
+	void delete_pos(int pos);
+	void reverse_list();
+	void merge_lists(Linked_List l1, Linked_List l2);
+	Linked_List selection_sort(Linked_List l1);
+	void Remove_Duplicates(Linked_List l1);
+};
 //---------------main starts here------------------------------
 int main()
 {
-	node* head = new node;
-	head->data = 3;
-	head->next = NULL;
-	
-	insert_at_end(head,6);
-	count_of_nodes(head);
-	print_data(head);
-	cout << "\n---------------------\n";
-	head=insert_at_beg(head, 9);
-	count_of_nodes(head);
-	print_data(head);
-	cout << "\n---------------------\n";
-	add_at_pos(head, 12, 2);
-	count_of_nodes(head);
-	print_data(head);
-	cout << "\n---------------------\n";
-	head = del_first(head);
-	count_of_nodes(head);
-	print_data(head);
-	cout << "\n---------------------\n";
-	del_last(head);
-	count_of_nodes(head);
-	print_data(head); //12	3
-	cout << "\n---------------------\n";
-	insert_at_end(head, 6);
-	insert_at_end(head, 9);
-	count_of_nodes(head);
-	print_data(head); //12 3 6 9 
-	cout << "\n---------------------\n";
-	del_pos(&head, 3);
-	count_of_nodes(head); //3
-	print_data(head); //12 3 9
-	cout << "\n---------------------\n";
-	head = reverse(head);
-	print_data(head);
+	Linked_List l1;
+	Linked_List l2;
+	l1.insert_newnode(1);
+	l1.insert_newnode(1);
+	l1.insert_newnode(4);
+	l1.insert_newnode(5);
+	l1.insert_newnode(7);
+
+	l2.insert_firstnode(2);
+	l2.insert_firstnode(4);
+	l2.insert_firstnode(7);
+	l2.insert_firstnode(9);
+
+
+	//l1.reverse_list();
+	cout << " L1 linked list\n";
+	l1.show();
+	cout << endl;
+
+	cout << " L2 linked list\n";
+	l2.show();
+	cout << endl;
+
+	cout << "merged list\n";
+	l1.merge_lists(l1, l2);
+	l1.show();
+	cout << endl;
+
+	cout << "------------selection sort--------------\n";
+	Linked_List l3; //merged linked list
+	l1.selection_sort(l1);
+	l1.show();
+	cout << endl;
+
+	cout << "-------------Removing Duplicates---------\n";
+	l1.Remove_Duplicates(l1);
+	l1.show();
+	cout << endl;
 	return 0;
 }
 //---------------main ends here------------------------------
 
-void count_of_nodes(node* head)
+Linked_List::Linked_List()
 {
-	int length=0;
-	if (head == NULL)
-		cout << "Linked list is Empty ! \n";
-	node* ptr = head;
-	while (ptr != NULL)
-	{
-		ptr = ptr->next;
-		length ++;
-	}
-	cout << "the length of linked list = " << length << endl;
+	head = NULL;
 }
 
-void print_data(node* head)
+void Linked_List::show()
 {
+	node* temp = new node;
+	temp = head;
 	if (head == NULL)
-		cout << "Linked list is Empty ! \n";
-
-	node* ptr = head;
-	while (ptr != NULL)
+		cout << "Linked List is empty\n";
+	while (temp != NULL)
 	{
-		cout << ptr->data << "\t";
-		ptr = ptr->next;
+		cout << temp->data << "\t";
+		temp = temp->next;
 	}
 	cout << endl;
 }
 
-void insert_at_end(node* head, int data)
+void Linked_List::insert_newnode(int val)
 {
-	node* temp = new node; //creating a new node
-	temp->data = data;
-	temp->next = NULL;
+	node* new_node = new node;
+	new_node->data = val;
+	new_node->next = NULL;
 
-	node* ptr = head;
-	while (ptr->next != NULL)
-	{
-		ptr = ptr->next;
-	}
-	ptr->next = temp;
-}
-
-node* insert_at_beg(node* head, int data)
-{
-	node* temp = new node;
-	temp->data = data;
-	temp->next = NULL;
-	temp->next = head;
-	head = temp;
-	return head;
-}
-
-void add_at_pos(node* head, int data, int pos)
-{
-	node* temp = new node;
-	node* ptr = head;
-
-	temp->data = data;
-	temp->next = NULL;
-
-	pos--;
-	if (pos != 1)
-	{
-		ptr = ptr->next;
-		pos--;
-	}
-	temp->next = ptr->next;
-	ptr->next = temp;
-}
-
-node* del_first(node* head)
-{
 	if (head == NULL)
-		cout << "list is already empty\n ";
+		head = new_node;
 	else
 	{
-		node* ptr = head;
-		head = head->next;
-		ptr->next = NULL;
-		delete(ptr);
-	}
-	return head;
-}
-
-void del_last(struct node* head)
-{
-	if (head == NULL)
-		cout << "list is already empty\n ";
-	else if (head->next == NULL)
-		delete(head);
-	else
-	{
-		node* ptr2=head,*ptr1 = head;
-
-		while (ptr1->next != NULL)
+		node* current = new node;
+		current = head;
+		while (current->next != NULL)
 		{
-			ptr2 = ptr1;
-			ptr1 = ptr1->next;
-		}
-		ptr2->next = NULL;
-		delete(ptr1);
-	}
-}
-
-void del_pos(node* *head, int position)
-{
-	node* current = *head;
-	node* previous = *head;
-
-	if (*head==NULL)
-		cout << "list is already empty\n ";
-	else if (position == 1)
-	{
-		*head = current->next;
-		current->next = NULL;
-		delete(current);
-	}
-	else
-	{
-		while (position != 1)
-		{
-			previous = current;
 			current = current->next;
-			position--;
 		}
-		previous->next = current->next;
-		current->next = NULL;
-		delete(current);
+		current->next = new_node;
 	}
 }
 
-node* reverse(node* head)
+void Linked_List::insert_firstnode(int val)
 {
-	struct node* prev = NULL;
-	struct node* next = NULL;
-	while (head != NULL)
+	node* new_node = new node;
+	new_node->data = val;
+	if (head == NULL)
 	{
-		next = head->next;
-		head->next = prev;
-		prev = head;
-		head = next;
+		head = new_node;
+		head->next = NULL;
+	}
+	else
+	{
+		new_node->next = head;
+		head = new_node;
+	}
+
+}
+
+int Linked_List::number_of_elements()
+{
+	node* temp = head;
+	int counter = 0;
+	while (temp != NULL)
+	{
+		counter++;
+		temp = temp->next;
+	}
+	return counter;
+}
+
+void Linked_List::insert_atposition(int pos, int val)
+{
+	node* new_node = new node;
+	new_node->data = val;
+	int num = number_of_elements();
+	if (pos == 0)
+		insert_firstnode(val);
+	else if (pos == num)
+		insert_newnode(val);
+	else if (pos < num)
+	{
+		node* new_node = new node;
+		new_node->data = val;
+		node* ptr = head;
+		pos--;
+		while (pos != 0)
+		{
+			ptr = ptr->next;
+			pos--;
+		}
+		new_node->next = ptr->next;
+		ptr->next = new_node;
+	}
+	else
+		cout << "position is out of the list \n";
+}
+
+node* Linked_List::search_by_value(int value)
+{
+	node* current = head;
+	while (current != NULL)
+	{
+		while (current->data != value)
+			current = current->next;
+	}
+	return current;
+}
+
+void Linked_List::delete_first()
+{
+	if (head == NULL)
+		cout<< "list is already empty\n ";
+	else
+	{
+		node* temp = head;
+		head = temp->next;
+		temp->next = NULL;
+		delete temp;
+	}
+}
+
+void Linked_List::delete_last()
+{
+	if (head == NULL)
+		cout << "List is Empty ! \n";
+	else if (head->next == NULL)
+		delete head;
+	else
+	{
+		node* prev= head, *curr = head;
+		while (curr->next != NULL)
+		{
+			prev = curr;
+			curr = curr->next;
+		}
+		prev->next = NULL;
+		delete curr;
+	}
+}
+
+void Linked_List::delete_pos(int pos)
+{
+	int n = number_of_elements();
+	if (pos == 0)
+		delete_first();
+	else if (pos == n-1)
+		delete_last();
+	else if (pos < n-1)
+	{
+		node* curr = head;
+		node* prev = head;
+
+		while (pos != 0)
+		{
+			prev = curr;
+			curr = curr->next;
+			pos--;
+		}
+		prev->next = curr->next;
+		delete curr;
+	}
+	else
+		cout << "position is out of the list \n";
+}
+
+void Linked_List::reverse_list()
+{
+	node* prev = NULL;
+	node* next = NULL;
+	node* curr = head;
+
+	while (curr != NULL)
+	{
+		next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
 	}
 	head = prev;
-	return head;
 }
+
+void Linked_List::merge_lists(Linked_List l1, Linked_List l2)
+{
+	node* temp = l1.head;
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
+	temp->next = l2.head;
+}
+
+Linked_List Linked_List::selection_sort(Linked_List l1)
+{
+	if (l1.head == NULL)
+		return l1;
+	int temp;
+	node* currNode = l1.head;
+	node* nextNode = NULL;
+	while (currNode != NULL)
+	{
+		nextNode = currNode->next;
+		while (nextNode != NULL)
+		{
+			if (currNode->data > nextNode->data)
+			{
+				temp = currNode->data;
+				currNode->data = nextNode->data;
+				nextNode->data = temp;
+			}
+			nextNode = nextNode->next;
+		}
+		currNode = currNode->next;
+	}
+	return l1;
+}
+
+void Linked_List::Remove_Duplicates(Linked_List l1)
+{
+	node* currentNode = l1.head;
+	node* nextNode = NULL;
+
+	while (currentNode->next != NULL)
+	{
+		if (currentNode->data == currentNode->next->data)
+		{
+			nextNode = currentNode->next->next;
+			delete currentNode->next;
+			currentNode->next = nextNode;
+		}
+		else
+		{
+			currentNode = currentNode->next;
+		}
+	}
+}
+
